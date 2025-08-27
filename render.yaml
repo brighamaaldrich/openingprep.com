@@ -1,0 +1,54 @@
+services:
+    - name: redis
+      type: redis
+      plan: free
+
+    - name: frontend
+      type: static
+      plan: free
+      rootDir: ./opening-prep
+      buildFilter:
+          paths:
+              - opening-prep/**
+      buildCommmand: npm install && npm run build
+      publishDir: dist
+      envVars:
+          - key: VITE_API_URL
+            fromService:
+                type: web
+                name: api
+                property: url
+
+    - name: api
+      type: web
+      plan: free
+      rootDir: ./server
+      env: docker
+      envVars:
+          - key: REDIS_HOST
+            fromService:
+                type: redis
+                name: redis
+                property: host
+          - key: REDIS_PORT
+            fromService:
+                type: redis
+                name: redis
+                property: port
+
+    - name: worker
+      type: worker
+      plan: free
+      rootDir: ./server
+      env: docker
+      envVars:
+          - key: REDIS_HOST
+            fromService:
+                type: redis
+                name: redis
+                property: host
+          - key: REDIS_PORT
+            fromService:
+                type: redis
+                name: redis
+                property: port

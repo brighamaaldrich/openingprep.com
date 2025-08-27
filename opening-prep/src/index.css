@@ -1,0 +1,202 @@
+@import "tailwindcss";
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@theme {
+	--color-board-light: #f7f2be;
+	--color-board-dark: #00648f;
+	--color-overlay-selected: rgba(225, 165, 0, 0.7);
+	--color-overlay-last-move: rgba(225, 75, 50, 0.8);
+	--color-overlay-move: rgba(225, 165, 0, 0.65);
+	--color-overlay-hover: rgba(225, 165, 0, 0.55);
+
+	--color-bkg: #041725;
+	--color-bkg-2: #062337;
+	--color-bkg-3: #052032;
+	--color-primary: #eca400;
+	--color-primary-2: #b88100;
+	--color-secondary: #00648f;
+	--color-accent: #f7f2be;
+	--color-accent-2: #c8e6f9;
+
+	--inset-shadow-bar: 0 0 5px 4px rgba(0, 0, 0, 0.18);
+	--inset-shadow-node: 0 0 50px 20px rgba(235, 235, 255, 1);
+	--inset-shadow-panel: 0 0 8px 5px rgba(0, 0, 0, 0.3);
+	--inset-shadow-panel-2: 6px -5px 6px 0px rgba(0, 0, 0, 0.2);
+	--inset-shadow-tab: 0 -10px 6px 4px rgba(0, 0, 0, 0.2);
+	--inset-shadow-tab-2: 6px -10px 6px 0px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="lichess"] {
+	--color-board-light: rgb(222, 227, 230);
+	--color-board-dark: rgb(140, 161, 173);
+	--color-overlay-selected: rgba(28, 85, 32, 0.5);
+	--color-overlay-last-move: rgba(159, 199, 55, 0.42);
+	--color-overlay-move: rgba(79, 116, 85, 0.55);
+	--color-overlay-hover: rgba(79, 116, 85, 0.45);
+}
+
+[data-theme="brick"] {
+	--color-board-light: rgb(248, 230, 170);
+	--color-board-dark: rgb(199, 80, 47);
+	--color-overlay-selected: rgba(208, 39, 73, 0.75);
+	--color-overlay-last-move: rgba(255, 174, 0, 0.85);
+	--color-overlay-move: rgba(169, 41, 62, 0.6);
+	--color-overlay-hover: rgba(169, 41, 62, 0.5);
+}
+
+[data-theme="grass"] {
+	--color-board-light: rgb(243, 237, 193);
+	--color-board-dark: rgb(78, 138, 54);
+	--color-overlay-selected: rgba(227, 216, 0, 0.75);
+	--color-overlay-last-move: rgba(255, 255, 0, 0.7);
+	--color-overlay-move: rgba(181, 181, 0, 0.6);
+	--color-overlay-hover: rgba(199, 199, 0, 0.5);
+}
+
+[data-theme="wood"] {
+	--color-board-light: rgb(246, 233, 199);
+	--color-board-dark: rgb(183, 139, 92);
+	--color-overlay-selected: rgba(24, 104, 29, 0.5);
+	--color-overlay-last-move: rgba(168, 218, 42, 0.42);
+	--color-overlay-move: rgba(74, 135, 84, 0.55);
+	--color-overlay-hover: rgba(74, 135, 84, 0.55);
+}
+
+[data-theme="bw"] {
+	--color-board-light: rgb(255, 255, 255);
+	--color-board-dark: rgb(100, 100, 100);
+	--color-overlay-selected: rgba(38, 83, 219, 0.7);
+	--color-overlay-last-move: rgba(255, 240, 0, 0.9);
+	--color-overlay-move: rgba(40, 73, 127, 0.6);
+	--color-overlay-hover: rgba(40, 73, 127, 0.5);
+}
+
+[data-theme="purple"] {
+	--color-board-light: rgb(254, 245, 255);
+	--color-board-dark: rgb(180, 129, 210);
+	--color-overlay-selected: rgba(255, 247, 0, 0.8);
+	--color-overlay-last-move: rgba(255, 39, 176, 0.65);
+	--color-overlay-move: rgba(237, 237, 0, 0.6);
+	--color-overlay-hover: rgba(237, 237, 0, 0.5);
+}
+
+[data-theme="pink"] {
+	--color-board-light: rgb(255, 239, 242);
+	--color-board-dark: rgb(213, 113, 150);
+	--color-overlay-selected: rgba(255, 217, 0, 0.8);
+	--color-overlay-last-move: rgba(255, 157, 0, 0.85);
+	--color-overlay-move: rgba(237, 237, 0, 0.6);
+	--color-overlay-hover: rgba(237, 237, 0, 0.5);
+}
+
+@utility bg-normal-gradient {
+	background-image: linear-gradient(
+		135deg,
+		rgba(0, 100, 143) 0%,
+		rgba(0, 100, 143) 50%,
+		rgba(247, 242, 190) 50%,
+		rgba(247, 242, 190) 100%
+	);
+}
+
+@utility bg-lichess-gradient {
+	background-image: linear-gradient(
+		135deg,
+		rgb(140, 161, 173) 0%,
+		rgb(140, 161, 173) 50%,
+		rgb(222, 227, 230) 50%,
+		rgb(222, 227, 230) 100%
+	);
+}
+
+@utility bg-brick-gradient {
+	background-image: linear-gradient(
+		135deg,
+		rgb(199, 80, 47) 0%,
+		rgb(199, 80, 47) 50%,
+		rgb(248, 230, 170) 50%,
+		rgb(248, 230, 170) 100%
+	);
+}
+
+@utility bg-grass-gradient {
+	background-image: linear-gradient(
+		135deg,
+		rgb(78, 138, 54) 0%,
+		rgb(78, 138, 54) 50%,
+		rgb(243, 237, 193) 50%,
+		rgb(243, 237, 193) 100%
+	);
+}
+
+@utility bg-wood-gradient {
+	background-image: linear-gradient(
+		135deg,
+		rgb(183, 139, 92) 0%,
+		rgb(183, 139, 92) 50%,
+		rgb(246, 233, 199) 50%,
+		rgb(246, 233, 199) 100%
+	);
+}
+
+@utility bg-bw-gradient {
+	background-image: linear-gradient(
+		135deg,
+		rgb(100, 100, 100) 0%,
+		rgb(100, 100, 100) 50%,
+		rgb(255, 255, 255) 50%,
+		rgb(255, 255, 255) 100%
+	);
+}
+
+@utility bg-purple-gradient {
+	background-image: linear-gradient(
+		135deg,
+		rgb(180, 129, 210) 0%,
+		rgb(180, 129, 210) 50%,
+		rgb(254, 245, 255) 50%,
+		rgb(254, 245, 255) 100%
+	);
+}
+
+@utility bg-pink-gradient {
+	background-image: linear-gradient(
+		135deg,
+		rgb(213, 113, 150) 0%,
+		rgb(213, 113, 150) 50%,
+		rgb(255, 239, 242) 50%,
+		rgb(255, 239, 242) 100%
+	);
+}
+
+body {
+	background-color: var(--color-bkg);
+}
+
+/* Main container for the control buttons */
+.react-flow__controls {
+	box-shadow: 0 0 2px 3px rgba(0, 0, 0, 0.1);
+	border-radius: 4px;
+	overflow: hidden;
+}
+
+.react-flow__controls button {
+	background-color: var(--color-bkg-2);
+	border-bottom: 1px solid var(--color-bkg-2);
+	transition: background-color 0.2s;
+}
+
+.react-flow__controls button:hover {
+	background-color: var(--color-accent-2);
+}
+
+.react-flow__controls button svg {
+	fill: var(--color-accent-2);
+}
+
+.react-flow__controls button:hover svg {
+	fill: var(--color-bkg-2);
+}
