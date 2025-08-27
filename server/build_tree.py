@@ -20,7 +20,6 @@ PVAL = {
 SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 
 STOCKFISH_EXECUTABLE_PATH = "/usr/local/bin/stockfish"
-LICHESS_TOKEN = "lio_dKTJFwvniBelKg5SHmiQNK53OeKh4stK"
 ONNX_MODEL_PATH = os.path.join(SCRIPT_DIR, "chess_predictor_final.onnx")
 
 def material(board):

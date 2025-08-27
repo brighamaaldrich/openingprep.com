@@ -21,7 +21,8 @@ class AnalysisRequest(BaseModel):
     depth: int = 20
     token: str | None = None
 
-redis_conn = Redis(host=os.getenv("REDIS_HOST", "localhost"), port=6379)
+redis_url = os.getenv("REDIS_URL", "redis://localhost:6379")
+redis_conn = Redis.from_url(redis_url)
 q = Queue(connection=redis_conn)
 job_results = {}
 app = FastAPI()

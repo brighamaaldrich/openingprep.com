@@ -3,8 +3,8 @@ from redis import Redis
 from rq import Worker, Queue
 
 listen = ['default']
-redis_host = os.getenv("REDIS_HOST", "localhost")
-redis_conn = Redis(host=redis_host, port=6379)
+redis_url = os.getenv("REDIS_URL", "redis://localhost:6379")
+redis_conn = Redis.from_url(redis_url)
 
 if __name__ == '__main__':
     queues = [Queue(name, connection=redis_conn) for name in listen]

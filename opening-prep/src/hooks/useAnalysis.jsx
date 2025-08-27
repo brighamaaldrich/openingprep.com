@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import initialTreeData from "../tree.json";
 
-const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const apiUrl = import.meta.env.VITE_API_URL || "";
 
 export const useAnalysis = (setPanel) => {
 	const [treeData, setTreeData] = useState(initialTreeData);
