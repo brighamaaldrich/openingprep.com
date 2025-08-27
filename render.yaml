@@ -3,9 +3,9 @@ services:
     - type: web
       name: frontend
       runtime: static
-      rootDir: ./opening-prep
+      rootDir: ./opening-prep # rootDir is correct here for a static build
       buildCommand: "npm install && npm run build"
-      staticPublishPath: ./dist # <-- CORRECTED
+      staticPublishPath: ./dist
       routes:
           - type: rewrite
             source: /api/(.*)
@@ -15,9 +15,9 @@ services:
     - type: web
       name: api
       runtime: docker
-      rootDir: ./server
-      dockerfilePath: ./server/Dockerfile.api
-      dockerContext: .
+      # rootDir has been removed
+      dockerfilePath: ./server/Dockerfile.api # Path from repo root
+      dockerContext: ./server # Path from repo root
       preDeployCommand: "git lfs install && git lfs pull"
       envVars:
           - key: REDIS_URL
@@ -30,9 +30,9 @@ services:
     - type: worker
       name: worker
       runtime: docker
-      rootDir: ./server
-      dockerfilePath: ./server/Dockerfile.worker
-      dockerContext: .
+      # rootDir has been removed
+      dockerfilePath: ./server/Dockerfile.worker # Path from repo root
+      dockerContext: ./server # Path from repo root
       preDeployCommand: "git lfs install && git lfs pull"
       envVars:
           - key: REDIS_URL
