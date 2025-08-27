@@ -1,6 +1,6 @@
 services:
     # Frontend Static Site
-    - type: static site
+    - type: staticSite
       name: frontend # You choose this name
       env: node
       plan: free
