@@ -5,7 +5,7 @@ services:
       runtime: static
       rootDir: ./opening-prep
       buildCommand: "npm install && npm run build"
-      staticPublishPath: ./opening-prep/dist
+      staticPublishPath: ./dist # <-- CORRECTED
       routes:
           - type: rewrite
             source: /api/(.*)
@@ -14,10 +14,10 @@ services:
     # API Web Service
     - type: web
       name: api
-      runtime: docker # Using the modern 'runtime' key
+      runtime: docker
       rootDir: ./server
-      dockerfilePath: ./server/Dockerfile.api # <-- Points to the API Dockerfile
-      dockerContext: ./server
+      dockerfilePath: ./server/Dockerfile.api
+      dockerContext: .
       preDeployCommand: "git lfs install && git lfs pull"
       envVars:
           - key: REDIS_URL
@@ -29,10 +29,10 @@ services:
     # Worker
     - type: worker
       name: worker
-      runtime: docker # Using the modern 'runtime' key
+      runtime: docker
       rootDir: ./server
-      dockerfilePath: ./server/Dockerfile.worker # <-- Points to the WORKER Dockerfile
-      dockerContext: ./server
+      dockerfilePath: ./server/Dockerfile.worker
+      dockerContext: .
       preDeployCommand: "git lfs install && git lfs pull"
       envVars:
           - key: REDIS_URL
