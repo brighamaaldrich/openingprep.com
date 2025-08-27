@@ -3,12 +3,14 @@
 FROM python:3.12-slim
 WORKDIR /app
 
-COPY requirements.txt .
+# COPY from the context root (the repo root)
+COPY server/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy Stockfish binaries and select the correct one
-COPY stockfish_amd64 /tmp/stockfish_amd64
-COPY stockfish_arm64 /tmp/stockfish_arm64
+# COPY LFS files from their location in the repo
+COPY server/stockfish_amd64 /tmp/stockfish_amd64
+COPY server/stockfish_arm64 /tmp/stockfish_arm64
+
 ARG TARGETARCH
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
         cp /tmp/stockfish_amd64 /usr/local/bin/stockfish; \
@@ -18,8 +20,8 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
 RUN chmod +x /usr/local/bin/stockfish
 RUN rm /tmp/stockfish_amd64 /tmp/stockfish_arm64
 
-# Copy the rest of your application code
-COPY . .
+# COPY only the server application code into the container
+COPY server/ .
 
 # Command to run your background worker
 CMD ["python", "worker.py"]
