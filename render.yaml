@@ -16,8 +16,7 @@ services:
       name: api
       runtime: docker
       dockerfilePath: ./server/Dockerfile.api
-      dockerContext: ./server
-      # preDeployCommand has been removed
+      dockerContext: . # <-- CORRECTED: Use repo root as context
       envVars:
           - key: REDIS_URL
             fromService:
@@ -30,8 +29,7 @@ services:
       name: worker
       runtime: docker
       dockerfilePath: ./server/Dockerfile.worker
-      dockerContext: ./server
-      # preDeployCommand has been removed
+      dockerContext: . # <-- CORRECTED: Use repo root as context
       envVars:
           - key: REDIS_URL
             fromService:
