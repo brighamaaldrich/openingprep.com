@@ -1,17 +1,20 @@
 services:
+    # 1. The Redis instance for the job queue
     - name: redis
       type: redis
       plan: free
 
+    # 2. The React Frontend
     - name: frontend
-      type: static
+      # THE FIX: The correct type is 'static_site'
+      type: static_site
       plan: free
       rootDir: ./opening-prep
       buildFilter:
           paths:
               - opening-prep/**
-      buildCommmand: npm install && npm run build
-      publishDir: dist
+      buildCommand: npm install && npm run build
+      publishDir: opening-prep/dist
       envVars:
           - key: VITE_API_URL
             fromService:
@@ -19,6 +22,7 @@ services:
                 name: api
                 property: url
 
+    # 3. The FastAPI Web Service
     - name: api
       type: web
       plan: free
@@ -36,6 +40,7 @@ services:
                 name: redis
                 property: port
 
+    # 4. The Background Worker
     - name: worker
       type: worker
       plan: free
