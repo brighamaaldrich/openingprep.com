@@ -2,6 +2,18 @@
 
 FROM python:3.12-slim
 WORKDIR /app
+
+# --- NEW: Install git and git-lfs ---
+RUN apt-get update && apt-get install -y git git-lfs
+
+# Copy application code first (including .gitattributes)
+COPY . .
+
+# --- NEW: Pull LFS files ---
+RUN git lfs install
+RUN git lfs pull
+
+# Now, install Python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -16,9 +28,6 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
     fi
 RUN chmod +x /usr/local/bin/stockfish
 RUN rm /tmp/stockfish_amd64 /tmp/stockfish_arm64
-
-# Copy the rest of your application code
-COPY . .
 
 # Command to run your FastAPI server
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]

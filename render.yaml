@@ -3,22 +3,21 @@ services:
     - type: web
       name: frontend
       runtime: static
-      rootDir: ./opening-prep # rootDir is correct here for a static build
+      rootDir: ./opening-prep
       buildCommand: "npm install && npm run build"
       staticPublishPath: ./dist
       routes:
           - type: rewrite
             source: /api/(.*)
-            destination: https://api.onrender.com/api/$1
+            destination: https://openingprep.onrender.com/api/$1
 
     # API Web Service
     - type: web
       name: api
       runtime: docker
-      # rootDir has been removed
-      dockerfilePath: ./server/Dockerfile.api # Path from repo root
-      dockerContext: ./server # Path from repo root
-      preDeployCommand: "git lfs install && git lfs pull"
+      dockerfilePath: ./server/Dockerfile.api
+      dockerContext: ./server
+      # preDeployCommand has been removed
       envVars:
           - key: REDIS_URL
             fromService:
@@ -30,10 +29,9 @@ services:
     - type: worker
       name: worker
       runtime: docker
-      # rootDir has been removed
-      dockerfilePath: ./server/Dockerfile.worker # Path from repo root
-      dockerContext: ./server # Path from repo root
-      preDeployCommand: "git lfs install && git lfs pull"
+      dockerfilePath: ./server/Dockerfile.worker
+      dockerContext: ./server
+      # preDeployCommand has been removed
       envVars:
           - key: REDIS_URL
             fromService:
