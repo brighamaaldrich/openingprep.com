@@ -1,20 +1,21 @@
 services:
     # Frontend Static Site
-    - type: web # Correct type is 'web'
+    # The type is 'web' and the runtime is 'static'.
+    # This combination enables the static site features like 'routes'.
+    - type: web
       name: frontend
-      env: node
-      plan: free
+      runtime: static # <-- This was the critical missing key
       rootDir: ./opening-prep
-      staticBuildCommand: "npm install && npm run build" # Correct property name
-      staticPublishPath: ./opening-prep/dist # Correct property name
+      buildCommand: "npm install && npm run build" # Standard build command property
+      publishDir: ./opening-prep/dist # Standard publish directory property
       routes:
           - type: rewrite
             source: /api/(.*)
-            destination: https://openingprep.onrender.com/api/$1
+            destination: https://api.onrender.com/api/$1
 
     # API Web Service (uses Dockerfile's default CMD)
     - type: web
-      name: api # You choose this name
+      name: api
       env: docker
       plan: starter
       rootDir: ./server
@@ -37,7 +38,7 @@ services:
       dockerfilePath: ./server/Dockerfile
       dockerContext: ./server
       preDeployCommand: "git lfs install && git lfs pull"
-      startCommand: "python worker.py" # <-- This overrides the Dockerfile CMD
+      startCommand: "python worker.py"
       envVars:
           - key: REDIS_URL
             fromService:
@@ -49,4 +50,4 @@ services:
     - type: redis
       name: redis-queue
       plan: free
-      ipAllowList: [] # Allows access from your other Render services
+      ipAllowList: []
