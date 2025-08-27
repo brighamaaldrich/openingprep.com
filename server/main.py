@@ -73,3 +73,45 @@ async def get_status(job_id: str):
             progress = job.meta.get('progress', 'Analysis in progress...')
             return {"status": "running", "progress": progress}
     return {"status": "not_found"}
+
+
+
+# In main.py, add this at the end of the file
+
+@app.get("/api/test-imports")
+async def test_imports():
+    try:
+        print("--- STARTING IMPORT TEST ---")
+        
+        print("1. Importing os...")
+        import os
+        print("   os OK.")
+        
+        print("2. Importing onnxruntime...")
+        import onnxruntime
+        print("   onnxruntime OK.")
+
+        print("3. Importing numpy...")
+        import numpy
+        print("   numpy OK.")
+
+        print("4. Importing chess...")
+        import chess
+        print("   chess OK.")
+
+        print("5. Importing chess.engine...")
+        import chess.engine
+        print("   chess.engine OK.")
+        
+        print("6. Initializing Stockfish...")
+        engine = chess.engine.SimpleEngine.popen_uci("/usr/local/bin/stockfish")
+        print("   Stockfish initialized OK.")
+
+        print("--- IMPORT TEST SUCCEEDED ---")
+        return {"message": "All imports are working correctly!"}
+        
+    except Exception as e:
+        print(f"CRITICAL ERROR DURING IMPORT TEST: {e}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Failed during import test: {str(e)}")
