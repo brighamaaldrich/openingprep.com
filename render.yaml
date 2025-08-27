@@ -1,17 +1,16 @@
 services:
     # Frontend Static Site
-    - type: staticSite
-      name: frontend # You choose this name
+    - type: web # Correct type is 'web'
+      name: frontend
       env: node
       plan: free
       rootDir: ./opening-prep
-      buildCommand: "npm install && npm run build"
-      publishDir: ./opening-prep/dist
+      staticBuildCommand: "npm install && npm run build" # Correct property name
+      staticPublishPath: ./opening-prep/dist # Correct property name
       routes:
           - type: rewrite
             source: /api/(.*)
-            # Use the name 'api' that you defined for the backend service below
-            destination: https://api.onrender.com/api/$1
+            destination: https://openingprep.onrender.com/api/$1
 
     # API Web Service (uses Dockerfile's default CMD)
     - type: web
