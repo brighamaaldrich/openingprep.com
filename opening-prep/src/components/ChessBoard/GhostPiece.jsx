@@ -1,9 +1,7 @@
 import Piece from "./Piece";
 
 const GhostPiece = ({ piece }) => {
-	if (!piece) {
-		return null;
-	}
+	if (!piece) return null;
 
 	return (
 		<div

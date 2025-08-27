@@ -51,7 +51,6 @@ const LichessAuth = ({ token, setToken }) => {
 
 				if (response.ok) {
 					const data = await response.json();
-					console.log(data.access_token);
 					setToken(data.access_token);
 					sessionStorage.removeItem("code_verifier");
 					window.history.replaceState(

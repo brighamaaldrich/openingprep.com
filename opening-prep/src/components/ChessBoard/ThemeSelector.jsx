@@ -13,7 +13,6 @@ const THEMES = {
 
 const ThemeSelector = ({ theme, setTheme }) => {
 	useEffect(() => {
-		console.log(theme);
 		if (theme == "normal")
 			document.documentElement.removeAttribute("data-theme");
 		else document.documentElement.setAttribute("data-theme", theme);

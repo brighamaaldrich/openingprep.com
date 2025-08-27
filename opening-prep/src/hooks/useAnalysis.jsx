@@ -21,7 +21,7 @@ export const useAnalysis = (setPanel) => {
 		setStatusMessage("Sending analysis request...");
 
 		try {
-			const response = await fetch(`${apiUrl}/api/start-analysis`, {
+			const response = await fetch(`${apiUrl}/api/analyze`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(requestBody),
@@ -35,7 +35,6 @@ export const useAnalysis = (setPanel) => {
 			}
 
 			const data = await response.json();
-			// --- FIX 1: Add a check to ensure job_id exists ---
 			if (data.job_id) {
 				setJobId(data.job_id);
 				setStatusMessage(
@@ -61,9 +60,6 @@ export const useAnalysis = (setPanel) => {
 					throw new Error("Failed to fetch job status.");
 
 				const data = await response.json();
-
-				// --- FIX 2: Log the server response to the console for debugging ---
-				console.log("Polling response:", data);
 
 				if (data.status === "finished") {
 					clearInterval(pollInterval);

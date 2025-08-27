@@ -77,8 +77,6 @@ const FormPanel = ({
 			depth: Number(formData.depth),
 			token: lichessToken,
 		};
-
-		console.log(requestBody);
 		handleStartAnalysis(requestBody);
 	};
 
