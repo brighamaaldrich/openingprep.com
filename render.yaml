@@ -1,19 +1,17 @@
 services:
     # Frontend Static Site
-    # The type is 'web' and the runtime is 'static'.
-    # This combination enables the static site features like 'routes'.
     - type: web
       name: frontend
-      runtime: static # <-- This was the critical missing key
+      runtime: static
       rootDir: ./opening-prep
-      buildCommand: "npm install && npm run build" # Standard build command property
-      publishDir: ./opening-prep/dist # Standard publish directory property
+      buildCommand: "npm install && npm run build"
+      staticPublishPath: ./opening-prep/dist # <-- This is the corrected property name
       routes:
           - type: rewrite
             source: /api/(.*)
             destination: https://api.onrender.com/api/$1
 
-    # API Web Service (uses Dockerfile's default CMD)
+    # API Web Service
     - type: web
       name: api
       env: docker
@@ -29,7 +27,7 @@ services:
                 name: redis-queue
                 property: connectionString
 
-    # Worker (overrides Dockerfile's CMD with a startCommand)
+    # Worker
     - type: worker
       name: worker
       env: docker
