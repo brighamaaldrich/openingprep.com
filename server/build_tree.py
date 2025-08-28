@@ -139,14 +139,14 @@ class SharedNode:
 
 def build_intersected_tree(p1, p2, p1_filters, p2_filters, threshold, depth, token, update_progress):
     update_progress("Pulling Games for Player 1...")
-    p1_games = get_games(p1, p1_filters, token)
+    p1_games = get_game_stream(p1, p1_filters, token)
     update_progress("Pulling Games for Player 2...")
-    p2_games = get_games(p2, p2_filters, token)
+    p2_games = get_game_stream(p2, p2_filters, token)
     if not p1_games or not p2_games: return {"error": "Could not fetch games."}
     update_progress("Building Tree for Player 1...")
-    p1_tree = get_tree(p1_games, depth)
+    p1_tree = get_tree_from_stream(p1_games, depth)
     update_progress("Building Tree for Player 2...")
-    p2_tree = get_tree(p2_games, depth)
+    p2_tree = get_tree_from_stream(p2_games, depth)
     if not p1_tree or not p2_tree: return {"error": "Could not build tree."}
     update_progress("Intersecting Player Trees...")
     return intersect_trees(p1_tree, p2_tree, threshold)
@@ -168,6 +168,53 @@ def get_games(player, filters, token):
         game = chess.pgn.read_game(game_io)
         games.append(game)
     return games
+
+def get_game_stream(player, filters, token):
+    headers = { 'Content-Type': 'application/x-chess-pgn' }
+    if token: headers['Authorization'] = f'Bearer {token}'
+    try:
+        res = requests.get(
+            f"https://lichess.org/api/games/user/{player}",
+            params=filters,
+            headers=headers,
+            stream=True,
+            timeout=1800
+        )
+        res.raise_for_status()
+        return res
+    except requests.RequestException: return None
+
+def pgn_generator(res):
+    buffer = ""
+    for chunk in res.iter_content(chunk_size=1024):
+        buffer += chunk.decode('utf-8')
+        while "\n\n\n" in buffer:
+            pgn_string, buffer = buffer.split("\n\n\n", 1)
+            if pgn_string.strip(): yield pgn_string.strip()
+
+def get_tree_from_stream(stream, depth):
+    start_fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
+    root = ChessNode(start_fen, 'root', 'root')
+    for pgn in pgn_generator(stream):
+        if not pgn: continue
+        game = chess.pgn.read_game(io.StringIO(pgn))
+        result = game.headers.get("Result")
+        w_elo = game.headers.get(f"WhiteElo")
+        b_elo = game.headers.get(f"BlackElo")
+        tc = game.headers.get('TimeControl')
+        base = tc.split('/')[-1].split(':')[0].split('+')[0]
+        b_clock, w_clock = float(base), float(base)
+        head = root
+        for node in game.mainline():
+            board = node.board()
+            fen, san, uci, ply = board.fen(), node.san(), node.move.uci(), node.ply()
+            if ply > depth: break
+            if ply % 2: w_clock = node.clock()
+            else: b_clock = node.clock()
+            if san not in head.children: head.add_child(ChessNode(fen, san, uci))
+            head.children[san].add_instance(result, w_elo, b_elo, w_clock, b_clock, tc)
+            head = head.children[san]
+    return root
 
 def print_tree(tree, depth=0):
     if not tree: return
@@ -332,6 +379,11 @@ if __name__ == '__main__':
     
     player1 = "DrNykterstein"
     player2 = "EricRosen"
+
+    # stream = get_game_stream(player1, filters['p1'], None)
+    # tree = get_tree_from_stream(stream, 5)
+    # print_tree(tree)
+
 
     json_tree = get_final_json_tree(player1, player2, filters["p1"], filters["p2"], 0.15, 20)
     with open('tree.json', 'w') as fp:
