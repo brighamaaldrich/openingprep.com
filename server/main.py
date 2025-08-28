@@ -1,7 +1,6 @@
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import HTTPException
 from pydantic import BaseModel
 from redis import Redis
 from rq import Queue
@@ -41,48 +40,47 @@ app.add_middleware(
 
 
 
-@app.post("/api/analyze")
-async def start_analysis(request: AnalysisRequest):
-    print("--- DIAGNOSTIC: /api/analyze called ---")
+@app.post("/api/analyze-raw")
+async def start_analysis_raw(request: Request):
+    print("--- RAW ENDPOINT: /api/analyze-raw called ---")
     try:
-        # We will NOT call q.enqueue. We will just log the data.
-        print("Request received for P1:", request.player1, "and P2:", request.player2)
-        print("P1 Filters:", request.p1_filters.model_dump())
+        # We will manually parse the JSON, bypassing Pydantic validation
+        body = await request.json()
+        print("RAW ENDPOINT: Successfully received and parsed request body.")
+        print("Body Content:", body)
         
-        # Return a fake job ID to the frontend
-        fake_job_id = "fake_job_12345"
-        print(f"DIAGNOSTIC: Successfully processed request. Returning fake job ID: {fake_job_id}")
-        
-        return {"message": "Analysis job started", "job_id": fake_job_id}
+        # We won't enqueue a job yet, just prove this works
+        return {"message": "Raw endpoint successful", "received_body": body}
 
     except Exception as e:
-        print(f"This should not be reached, but logging just in case: {e}")
-        raise HTTPException(status_code=500, detail="Error during diagnostic run.")
+        print(f"RAW ENDPOINT: Exception caught: {e}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 
 
 
-
-# @app.post("/api/analyze")
-# async def start_analysis(request: AnalysisRequest):
-#     try:
-#         job = q.enqueue(
-#             get_final_json_tree,
-#             request.player1,
-#             request.player2,
-#             request.p1_filters.model_dump(),
-#             request.p2_filters.model_dump(),
-#             request.threshold,
-#             request.depth,
-#             job_timeout='30m'
-#         )
-#         return {"message": "Analysis job started", "job_id": job.get_id()}
-#     except Exception as e:
-#         print("!!!!!!!!!! FAILED TO ENQUEUE JOB !!!!!!!!!!!")
-#         print(f"An exception occurred: {e}")
-#         traceback.print_exc()
-#         raise HTTPException(status_code=500, detail=str(e))
+@app.post("/api/analyze")
+async def start_analysis(request: AnalysisRequest):
+    try:
+        job = q.enqueue(
+            get_final_json_tree,
+            request.player1,
+            request.player2,
+            request.p1_filters.model_dump(),
+            request.p2_filters.model_dump(),
+            request.threshold,
+            request.depth,
+            job_timeout='30m'
+        )
+        return {"message": "Analysis job started", "job_id": job.get_id()}
+    except Exception as e:
+        print("!!!!!!!!!! FAILED TO ENQUEUE JOB !!!!!!!!!!!")
+        print(f"An exception occurred: {e}")
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/api/results/{job_id}")
 async def get_status(job_id: str):
