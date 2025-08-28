@@ -1,5 +1,4 @@
 services:
-    # Frontend Static Site
     - type: web
       name: frontend
       runtime: static
@@ -11,12 +10,11 @@ services:
             source: /api/(.*)
             destination: https://api.onrender.com/api/$1
 
-    # API Web Service
     - type: web
       name: api
       runtime: docker
       dockerfilePath: ./server/Dockerfile.api
-      dockerContext: . # <-- CORRECTED: Use repo root as context
+      dockerContext: .
       envVars:
           - key: REDIS_URL
             fromService:
@@ -24,12 +22,11 @@ services:
                 name: redis-queue
                 property: connectionString
 
-    # Worker
     - type: worker
       name: worker
       runtime: docker
       dockerfilePath: ./server/Dockerfile.worker
-      dockerContext: . # <-- CORRECTED: Use repo root as context
+      dockerContext: .
       envVars:
           - key: REDIS_URL
             fromService:
@@ -37,7 +34,6 @@ services:
                 name: redis-queue
                 property: connectionString
 
-    # Redis Service
     - type: redis
       name: redis-queue
       plan: free
