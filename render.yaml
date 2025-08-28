@@ -9,7 +9,7 @@ services:
       routes:
           - type: rewrite
             source: /api/(.*)
-            destination: https://openingprep.onrender.com/api/$1
+            destination: https://api.onrender.com/api/$1
 
     # API Web Service
     - type: web
