@@ -1,10 +1,12 @@
 import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi import HTTPException
 from pydantic import BaseModel
 from redis import Redis
 from rq import Queue
-from fastapi import HTTPException
+import traceback
+from build_tree import get_final_json_tree
 
 class LichessFilters(BaseModel):
     color: str
@@ -39,7 +41,6 @@ app.add_middleware(
 @app.post("/api/analyze")
 async def start_analysis(request: AnalysisRequest):
     try:
-        from build_tree import get_final_json_tree
         job = q.enqueue(
             get_final_json_tree,
             request.player1,
@@ -52,12 +53,9 @@ async def start_analysis(request: AnalysisRequest):
         )
         return {"message": "Analysis job started", "job_id": job.get_id()}
     except Exception as e:
-        # This will print the exact error to your Render API logs
         print("!!!!!!!!!! FAILED TO ENQUEUE JOB !!!!!!!!!!!")
         print(f"An exception occurred: {e}")
-        import traceback
         traceback.print_exc()
-        # Return a proper error to the frontend
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/api/results/{job_id}")
