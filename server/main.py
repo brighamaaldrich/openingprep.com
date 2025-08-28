@@ -38,25 +38,51 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+
+
 @app.post("/api/analyze")
 async def start_analysis(request: AnalysisRequest):
+    print("--- DIAGNOSTIC: /api/analyze called ---")
     try:
-        job = q.enqueue(
-            get_final_json_tree,
-            request.player1,
-            request.player2,
-            request.p1_filters.model_dump(),
-            request.p2_filters.model_dump(),
-            request.threshold,
-            request.depth,
-            job_timeout='30m'
-        )
-        return {"message": "Analysis job started", "job_id": job.get_id()}
+        # We will NOT call q.enqueue. We will just log the data.
+        print("Request received for P1:", request.player1, "and P2:", request.player2)
+        print("P1 Filters:", request.p1_filters.model_dump())
+        
+        # Return a fake job ID to the frontend
+        fake_job_id = "fake_job_12345"
+        print(f"DIAGNOSTIC: Successfully processed request. Returning fake job ID: {fake_job_id}")
+        
+        return {"message": "Analysis job started", "job_id": fake_job_id}
+
     except Exception as e:
-        print("!!!!!!!!!! FAILED TO ENQUEUE JOB !!!!!!!!!!!")
-        print(f"An exception occurred: {e}")
-        traceback.print_exc()
-        raise HTTPException(status_code=500, detail=str(e))
+        print(f"This should not be reached, but logging just in case: {e}")
+        raise HTTPException(status_code=500, detail="Error during diagnostic run.")
+
+
+
+
+
+
+# @app.post("/api/analyze")
+# async def start_analysis(request: AnalysisRequest):
+#     try:
+#         job = q.enqueue(
+#             get_final_json_tree,
+#             request.player1,
+#             request.player2,
+#             request.p1_filters.model_dump(),
+#             request.p2_filters.model_dump(),
+#             request.threshold,
+#             request.depth,
+#             job_timeout='30m'
+#         )
+#         return {"message": "Analysis job started", "job_id": job.get_id()}
+#     except Exception as e:
+#         print("!!!!!!!!!! FAILED TO ENQUEUE JOB !!!!!!!!!!!")
+#         print(f"An exception occurred: {e}")
+#         traceback.print_exc()
+#         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/api/results/{job_id}")
 async def get_status(job_id: str):
