@@ -3,6 +3,7 @@ import initialTreeData from "../tree.json";
 
 // const apiUrl = import.meta.env.VITE_API_URL || "";
 const apiUrl = "https://api-g3sc.onrender.com";
+// const apiUrl = "";
 
 export const useAnalysis = (setPanel) => {
 	const [treeData, setTreeData] = useState(initialTreeData);

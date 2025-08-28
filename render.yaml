@@ -25,6 +25,7 @@ services:
     - type: worker
       name: worker
       runtime: docker
+      plan: standard
       dockerfilePath: ./server/Dockerfile.worker
       dockerContext: .
       envVars:
