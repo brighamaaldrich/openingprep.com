@@ -1,7 +1,6 @@
 version: "3.8"
 
 services:
-    # The FastAPI API Server
     api:
         build: .
         ports:
@@ -11,17 +10,14 @@ services:
         depends_on:
             - redis
 
-    # The Background Worker
     worker:
         build: .
-        # The command to start this service is to run the worker script.
         command: python worker.py
         environment:
             - REDIS_HOST=redis
         depends_on:
             - redis
 
-    # The Redis Database (Job Queue)
     redis:
         image: "redis:alpine"
         ports:

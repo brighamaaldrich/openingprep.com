@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>
+			Chess Opening Analysis Application - Project Specification
+		</title>
+		<link rel="stylesheet" href="spec.css" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+	<body>
+		<div class="container">
+			<header class="hero">
+				<div class="hero-content">
+					<h1 class="hero-title">
+						Chess Opening Analysis Application
+					</h1>
+					<p class="hero-subtitle">
+						Project Specification & Technical Documentation
+					</p>
+					<div class="hero-badge">v1.0</div>
+				</div>
+			</header>
+
+			<nav class="toc-nav">
+				<div class="toc-container">
+					<h2 class="toc-title">Table of Contents</h2>
+					<ul class="toc-list">
+						<li>
+							<a href="#project-overview">Project Overview</a>
+						</li>
+						<li>
+							<a href="#product-description"
+								>Product Description</a
+							>
+						</li>
+						<li>
+							<a href="#technical-architecture"
+								>Technical Architecture</a
+							>
+						</li>
+						<li>
+							<a href="#frontend-implementation"
+								>Frontend Implementation</a
+							>
+						</li>
+						<li>
+							<a href="#backend-implementation"
+								>Backend Implementation</a
+							>
+						</li>
+						<li>
+							<a href="#machine-learning-model"
+								>Machine Learning Model</a
+							>
+						</li>
+						<li>
+							<a href="#data-flow-processing"
+								>Data Flow & Processing</a
+							>
+						</li>
+						<li>
+							<a href="#user-interface-experience"
+								>User Interface & Experience</a
+							>
+						</li>
+						<li>
+							<a href="#deployment-infrastructure"
+								>Deployment & Infrastructure</a
+							>
+						</li>
+						<li>
+							<a href="#performance-scalability"
+								>Performance & Scalability</a
+							>
+						</li>
+						<li>
+							<a href="#security-considerations"
+								>Security Considerations</a
+							>
+						</li>
+						<li>
+							<a href="#future-enhancements"
+								>Future Enhancements</a
+							>
+						</li>
+					</ul>
+				</div>
+			</nav>
+
+			<main class="content">
+				<section id="project-overview" class="section">
+					<div class="section-header">
+						<h2 class="section-title">Project Overview</h2>
+						<div class="section-badge">Core Concept</div>
+					</div>
+
+					<div class="section-content">
+						<p class="lead-text">
+							The Chess Opening Analysis Application is a
+							sophisticated web-based tool designed to analyze
+							chess opening repertoires and identify performance
+							patterns between two players. The application
+							leverages machine learning to predict expected
+							win/draw/loss rates based on positional features and
+							player characteristics, enabling users to discover
+							areas of over or under-performance in their opening
+							play.
+						</p>
+
+						<div class="concept-card">
+							<h3>Core Concept</h3>
+							<p>
+								The application creates "hypothetical games" by
+								intersecting two players' opening repertoires -
+								one player's white games and another's black
+								games. This intersection reveals common lines
+								that would likely occur if these players were to
+								face each other, providing valuable insights for
+								preparation and analysis.
+							</p>
+						</div>
+
+						<div class="innovation-card">
+							<h3>Key Innovation</h3>
+							<p>
+								Unlike traditional chess analysis tools that
+								rely solely on engine evaluation, this
+								application uses a trained XGBoost model to
+								predict expected results based on comprehensive
+								positional and player features, creating a more
+								nuanced understanding of performance beyond
+								simple tactical evaluation.
+							</p>
+						</div>
+					</div>
+				</section>
+
+				<section id="product-description" class="section">
+					<div class="section-header">
+						<h2 class="section-title">Product Description</h2>
+						<div class="section-badge">Target Users</div>
+					</div>
+
+					<div class="section-content">
+						<div class="users-grid">
+							<div class="user-card">
+								<div class="user-icon">♟️</div>
+								<h4>Chess Players</h4>
+								<p>Preparing for specific opponents</p>
+							</div>
+							<div class="user-card">
+								<div class="user-icon">👨‍🏫</div>
+								<h4>Chess Coaches</h4>
+								<p>Analyzing student performance</p>
+							</div>
+							<div class="user-card">
+								<div class="user-icon">📊</div>
+								<h4>Chess Analysts</h4>
+								<p>Studying opening theory</p>
+							</div>
+							<div class="user-card">
+								<div class="user-icon">🏆</div>
+								<h4>Tournament Players</h4>
+								<p>Seeking strategic insights</p>
+							</div>
+						</div>
+
+						<div class="use-cases">
+							<h3>Use Cases</h3>
+							<div class="use-case-list">
+								<div class="use-case-item">
+									<span class="use-case-number">1</span>
+									<div class="use-case-content">
+										<h4>Opponent Preparation</h4>
+										<p>
+											Analyze a specific opponent's
+											repertoire to identify weaknesses
+											and strengths
+										</p>
+									</div>
+								</div>
+								<div class="use-case-item">
+									<span class="use-case-number">2</span>
+									<div class="use-case-content">
+										<h4>Performance Analysis</h4>
+										<p>
+											Compare actual results against
+											expected results to identify areas
+											for improvement
+										</p>
+									</div>
+								</div>
+								<div class="use-case-item">
+									<span class="use-case-number">3</span>
+									<div class="use-case-content">
+										<h4>Opening Theory</h4>
+										<p>
+											Study how different players handle
+											specific positions and variations
+										</p>
+									</div>
+								</div>
+								<div class="use-case-item">
+									<span class="use-case-number">4</span>
+									<div class="use-case-content">
+										<h4>Strategic Planning</h4>
+										<p>
+											Understand the statistical
+											likelihood of reaching certain
+											positions against specific opponents
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section id="technical-architecture" class="section">
+					<div class="section-header">
+						<h2 class="section-title">Technical Architecture</h2>
+						<div class="section-badge">System Overview</div>
+					</div>
+
+					<div class="section-content">
+						<div class="architecture-overview">
+							<p>
+								The application follows a modern microservices
+								architecture with:
+							</p>
+							<ul class="feature-list">
+								<li>
+									<strong>Frontend:</strong> React.js SPA with
+									Vite build system
+								</li>
+								<li>
+									<strong>Backend:</strong> Python FastAPI
+									with Redis queue management
+								</li>
+								<li>
+									<strong>Background Processing:</strong>
+									Worker-based architecture for long-running
+									analysis jobs
+								</li>
+								<li>
+									<strong>Data Storage:</strong> In-memory
+									processing with Redis for job queuing
+								</li>
+								<li>
+									<strong>Machine Learning:</strong> ONNX
+									runtime for model inference
+								</li>
+							</ul>
+						</div>
+
+						<div class="architecture-diagram">
+							<h3>Architecture Diagram</h3>
+							<div class="diagram">
+								<div class="diagram-box frontend">
+									<h4>React Frontend</h4>
+									<ul>
+										<li>Chess Board</li>
+										<li>Tree View</li>
+										<li>Engine</li>
+									</ul>
+								</div>
+								<div class="diagram-arrow">◄──►</div>
+								<div class="diagram-box backend">
+									<h4>FastAPI Backend</h4>
+									<ul>
+										<li>Job Mgmt</li>
+										<li>API Endpoints</li>
+										<li>CORS</li>
+									</ul>
+								</div>
+								<div class="diagram-arrow">◄──►</div>
+								<div class="diagram-box workers">
+									<h4>Redis Queue & Workers</h4>
+									<ul>
+										<li>Analysis</li>
+										<li>ML Inference</li>
+										<li>Stockfish</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+
+						<div class="tech-stack">
+							<h3>Technology Stack</h3>
+
+							<div class="tech-category">
+								<h4>Frontend</h4>
+								<div class="tech-grid">
+									<div class="tech-item">
+										<span class="tech-label"
+											>Framework:</span
+										>
+										<span class="tech-value"
+											>React 19.1.0</span
+										>
+									</div>
+									<div class="tech-item">
+										<span class="tech-label"
+											>Build Tool:</span
+										>
+										<span class="tech-value"
+											>Vite 7.0.4</span
+										>
+									</div>
+									<div class="tech-item">
+										<span class="tech-label">Styling:</span>
+										<span class="tech-value"
+											>Tailwind CSS 4.1.11</span
+										>
+									</div>
+									<div class="tech-item">
+										<span class="tech-label"
+											>Chess Logic:</span
+										>
+										<span class="tech-value">chess.js</span>
+									</div>
+									<div class="tech-item">
+										<span class="tech-label"
+											>Visualization:</span
+										>
+										<span class="tech-value"
+											>ReactFlow + D3-hierarchy</span
+										>
+									</div>
+								</div>
+							</div>
+
+							<div class="tech-category">
+								<h4>Backend</h4>
+								<div class="tech-grid">
+									<div class="tech-item">
+										<span class="tech-label"
+											>Framework:</span
+										>
+										<span class="tech-value">FastAPI</span>
+									</div>
+									<div class="tech-item">
+										<span class="tech-label"
+											>Language:</span
+										>
+										<span class="tech-value"
+											>Python 3.12</span
+										>
+									</div>
+									<div class="tech-item">
+										<span class="tech-label"
+											>Queue Management:</span
+										>
+										<span class="tech-value"
+											>Redis + RQ</span
+										>
+									</div>
+									<div class="tech-item">
+										<span class="tech-label"
+											>Chess Engine:</span
+										>
+										<span class="tech-value"
+											>Stockfish 16</span
+										>
+									</div>
+									<div class="tech-item">
+										<span class="tech-label"
+											>Machine Learning:</span
+										>
+										<span class="tech-value"
+											>ONNX Runtime</span
+										>
+									</div>
+								</div>
+							</div>
+
+							<div class="tech-category">
+								<h4>Infrastructure</h4>
+								<div class="tech-grid">
+									<div class="tech-item">
+										<span class="tech-label"
+											>Containerization:</span
+										>
+										<span class="tech-value"
+											>Docker (AMD64/ARM64)</span
+										>
+									</div>
+									<div class="tech-item">
+										<span class="tech-label"
+											>Orchestration:</span
+										>
+										<span class="tech-value"
+											>Docker Compose</span
+										>
+									</div>
+									<div class="tech-item">
+										<span class="tech-label"
+											>Deployment:</span
+										>
+										<span class="tech-value"
+											>Render.com</span
+										>
+									</div>
+									<div class="tech-item">
+										<span class="tech-label">Caching:</span>
+										<span class="tech-value">Redis</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section id="frontend-implementation" class="section">
+					<div class="section-header">
+						<h2 class="section-title">Frontend Implementation</h2>
+						<div class="section-badge">Component Architecture</div>
+					</div>
+
+					<div class="section-content">
+						<div class="component-architecture">
+							<h3>Core Components</h3>
+							<div class="component-grid">
+								<div class="component-card">
+									<h4>App.jsx</h4>
+									<p>
+										Main application container with state
+										management and panel switching
+									</p>
+								</div>
+								<div class="component-card">
+									<h4>ChessBoard</h4>
+									<p>
+										Interactive chess board with multiple
+										input methods
+									</p>
+								</div>
+								<div class="component-card">
+									<h4>TreeContainer</h4>
+									<p>
+										Analysis tree visualization and
+										navigation
+									</p>
+								</div>
+								<div class="component-card">
+									<h4>SidePanel</h4>
+									<p>
+										Dynamic panel system for different
+										application modes
+									</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="chess-board-features">
+							<h3>Chess Board Features</h3>
+							<div class="features-grid">
+								<div class="feature-item">
+									<span class="feature-icon">🖱️</span>
+									<span class="feature-text"
+										>Click-click, click-drag, keyboard
+										navigation</span
+									>
+								</div>
+								<div class="feature-item">
+									<span class="feature-icon">✨</span>
+									<span class="feature-text"
+										>Move highlighting, check indicators,
+										valid move indicators</span
+									>
+								</div>
+								<div class="feature-item">
+									<span class="feature-icon">🎨</span>
+									<span class="feature-text"
+										>8 different board themes with custom
+										color schemes</span
+									>
+								</div>
+								<div class="feature-item">
+									<span class="feature-icon">🎮</span>
+									<span class="feature-text"
+										>Flip board, forward/backward
+										navigation, move history</span
+									>
+								</div>
+								<div class="feature-item">
+									<span class="feature-icon">📱</span>
+									<span class="feature-text"
+										>Adapts to different screen sizes and
+										orientations</span
+									>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section id="backend-implementation" class="section">
+					<div class="section-header">
+						<h2 class="section-title">Backend Implementation</h2>
+						<div class="section-badge">API Architecture</div>
+					</div>
+
+					<div class="section-content">
+						<div class="api-endpoints">
+							<h3>Endpoints</h3>
+							<div class="endpoint-list">
+								<div class="endpoint-item">
+									<div class="endpoint-method post">POST</div>
+									<div class="endpoint-path">
+										/api/analyze
+									</div>
+									<div class="endpoint-desc">
+										Initiates analysis job with player and
+										filter parameters
+									</div>
+								</div>
+								<div class="endpoint-item">
+									<div class="endpoint-method get">GET</div>
+									<div class="endpoint-path">
+										/api/results/{job_id}
+									</div>
+									<div class="endpoint-desc">
+										Retrieves job status and results
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="code-example">
+							<h3>Request Models</h3>
+							<div class="code-block">
+								<div class="code-header">Python</div>
+								<pre><code>class LichessFilters(BaseModel):
+    color: str                    # Player color preference
+    rated: bool = True           # Rated games only
+    clocks: bool = True          # Games with clock information
+    max: int = 20000            # Maximum games to analyze
+    perfType: str = 'bullet,blitz,rapid,classical'  # Time controls
+
+class AnalysisRequest(BaseModel):
+    player1: str                 # First player username
+    player2: str                 # Second player username
+    p1_filters: LichessFilters   # Player 1 game filters
+    p2_filters: LichessFilters   # Player 2 game filters
+    threshold: float = 0.15      # Move frequency threshold
+    depth: int = 20             # Maximum tree depth
+    token: str | None = None    # Optional Lichess API token</code></pre>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section id="machine-learning-model" class="section">
+					<div class="section-header">
+						<h2 class="section-title">Machine Learning Model</h2>
+						<div class="section-badge">XGBoost</div>
+					</div>
+
+					<div class="section-content">
+						<div class="model-overview">
+							<h3>Model Architecture</h3>
+							<div class="model-stats">
+								<div class="stat-item">
+									<span class="stat-number">100,000+</span>
+									<span class="stat-label"
+										>Training Games</span
+									>
+								</div>
+								<div class="stat-item">
+									<span class="stat-number">30+</span>
+									<span class="stat-label">Features</span>
+								</div>
+								<div class="stat-item">
+									<span class="stat-number">XGBoost</span>
+									<span class="stat-label">Algorithm</span>
+								</div>
+								<div class="stat-item">
+									<span class="stat-number">ONNX</span>
+									<span class="stat-label">Deployment</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="feature-engineering">
+							<h3>Feature Engineering</h3>
+							<div class="feature-categories">
+								<div class="feature-category">
+									<h4>Positional Features</h4>
+									<ul>
+										<li>Engine Evaluation (Stockfish)</li>
+										<li>Static Evaluation</li>
+										<li>Material Balance</li>
+										<li>Pawn Structure</li>
+										<li>King Safety</li>
+										<li>Mobility</li>
+										<li>Castling Rights</li>
+										<li>Move Number</li>
+									</ul>
+								</div>
+								<div class="feature-category">
+									<h4>Player Features</h4>
+									<ul>
+										<li>Rating Difference</li>
+										<li>Clock Times</li>
+										<li>Time Control</li>
+										<li>Game Context</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section id="data-flow-processing" class="section">
+					<div class="section-header">
+						<h2 class="section-title">Data Flow & Processing</h2>
+						<div class="section-badge">Pipeline</div>
+					</div>
+
+					<div class="section-content">
+						<div class="pipeline-overview">
+							<h3>Complete Analysis Pipeline</h3>
+							<div class="pipeline-steps">
+								<div class="pipeline-step">
+									<div class="step-number">1</div>
+									<div class="step-content">
+										<h4>Data Collection</h4>
+										<div class="step-flow">
+											Lichess API → Game Stream → PGN
+											Parser → Move Tree
+										</div>
+									</div>
+								</div>
+								<div class="pipeline-step">
+									<div class="step-number">2</div>
+									<div class="step-content">
+										<h4>Tree Construction</h4>
+										<div class="step-flow">
+											Move Tree → Position Analysis →
+											Feature Extraction → Statistics
+											Collection
+										</div>
+									</div>
+								</div>
+								<div class="pipeline-step">
+									<div class="step-number">3</div>
+									<div class="step-content">
+										<h4>Tree Intersection</h4>
+										<div class="step-flow">
+											Player 1 Tree + Player 2 Tree →
+											Common Lines → Threshold Filtering →
+											Intersected Tree
+										</div>
+									</div>
+								</div>
+								<div class="pipeline-step">
+									<div class="step-number">4</div>
+									<div class="step-content">
+										<h4>Feature Generation</h4>
+										<div class="step-flow">
+											Intersected Tree → Stockfish
+											Analysis → Positional Features → ML
+											Feature Vector
+										</div>
+									</div>
+								</div>
+								<div class="pipeline-step">
+									<div class="step-number">5</div>
+									<div class="step-content">
+										<h4>Prediction Generation</h4>
+										<div class="step-flow">
+											Feature Vector → ML Model →
+											Win/Draw/Loss Probabilities →
+											Expected Results
+										</div>
+									</div>
+								</div>
+								<div class="pipeline-step">
+									<div class="step-number">6</div>
+									<div class="step-content">
+										<h4>Result Compilation</h4>
+										<div class="step-flow">
+											Expected Results + Actual Results →
+											Performance Analysis → JSON Output
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section id="user-interface-experience" class="section">
+					<div class="section-header">
+						<h2 class="section-title">
+							User Interface & Experience
+						</h2>
+						<div class="section-badge">Design Philosophy</div>
+					</div>
+
+					<div class="section-content">
+						<div class="design-philosophy">
+							<h3>Design Philosophy</h3>
+							<div class="philosophy-grid">
+								<div class="philosophy-item">
+									<span class="philosophy-icon">♟️</span>
+									<h4>Chess-Centric</h4>
+									<p>
+										Interface designed specifically for
+										chess analysis
+									</p>
+								</div>
+								<div class="philosophy-item">
+									<span class="philosophy-icon">🧭</span>
+									<h4>Intuitive Navigation</h4>
+									<p>
+										Clear visual hierarchy and logical flow
+									</p>
+								</div>
+								<div class="philosophy-item">
+									<span class="philosophy-icon">⚡</span>
+									<h4>Responsive Feedback</h4>
+									<p>Immediate response to user actions</p>
+								</div>
+								<div class="philosophy-item">
+									<span class="philosophy-icon">💼</span>
+									<h4>Professional Appearance</h4>
+									<p>
+										Clean, modern design suitable for
+										serious analysis
+									</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="color-scheme">
+							<h3>Color Scheme</h3>
+							<div class="color-palette">
+								<div class="color-item">
+									<div class="color-swatch primary"></div>
+									<span class="color-name">Primary Gold</span>
+									<span class="color-hex">#eca400</span>
+								</div>
+								<div class="color-item">
+									<div class="color-swatch secondary"></div>
+									<span class="color-name"
+										>Secondary Blue</span
+									>
+									<span class="color-hex">#00648f</span>
+								</div>
+								<div class="color-item">
+									<div class="color-swatch background"></div>
+									<span class="color-name">Background</span>
+									<span class="color-hex">#041725</span>
+								</div>
+								<div class="color-item">
+									<div class="color-swatch accent"></div>
+									<span class="color-name">Accent</span>
+									<span class="color-hex">#f7f2be</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section id="deployment-infrastructure" class="section">
+					<div class="section-header">
+						<h2 class="section-title">
+							Deployment & Infrastructure
+						</h2>
+						<div class="section-badge">Container Architecture</div>
+					</div>
+
+					<div class="section-content">
+						<div class="docker-config">
+							<h3>Docker Configuration</h3>
+							<div class="code-block">
+								<div class="code-header">Dockerfile</div>
+								<pre><code># Multi-stage build for optimization
+FROM python:3.12-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Stockfish binary installation
+COPY stockfish_amd64 /tmp/stockfish_amd64
+COPY stockfish_arm64 /tmp/stockfish_arm64
+ARG TARGETARCH
+RUN if [ "$TARGETARCH" = "amd64" ]; then \
+        cp /tmp/stockfish_amd64 /usr/local/bin/stockfish; \
+    elif [ "$TARGETARCH" = "arm64" ]; then \
+        cp /tmp/stockfish_arm64 /usr/local/bin/stockfish; \
+    fi
+
+RUN chmod +x /usr/local/bin/stockfish
+COPY . .
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]</code></pre>
+							</div>
+						</div>
+
+						<div class="service-orchestration">
+							<h3>Service Orchestration</h3>
+							<div class="code-block">
+								<div class="code-header">
+									docker-compose.yml
+								</div>
+								<pre><code>version: "3.8"
+services:
+    api:
+        build: .
+        ports: ["8000:80"]
+        environment: ["REDIS_HOST=redis"]
+        depends_on: ["redis"]
+    
+    worker:
+        build: .
+        command: python worker.py
+        environment: ["REDIS_HOST=redis"]
+        depends_on: ["redis"]
+    
+    redis:
+        image: "redis:alpine"
+        ports: ["6379:6379"]</code></pre>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section id="performance-scalability" class="section">
+					<div class="section-header">
+						<h2 class="section-title">Performance & Scalability</h2>
+						<div class="section-badge">Characteristics</div>
+					</div>
+
+					<div class="section-content">
+						<div class="performance-metrics">
+							<h3>Performance Characteristics</h3>
+							<div class="metrics-grid">
+								<div class="metric-card">
+									<h4>Response Times</h4>
+									<ul>
+										<li>
+											<strong>API Endpoints:</strong>
+											Sub-second response times
+										</li>
+										<li>
+											<strong>Analysis Jobs:</strong> 5-15
+											minutes for typical requests
+										</li>
+										<li>
+											<strong>Tree Rendering:</strong>
+											Immediate rendering up to 20 plies
+										</li>
+										<li>
+											<strong>ML Inference:</strong>
+											Sub-second prediction generation
+										</li>
+									</ul>
+								</div>
+								<div class="metric-card">
+									<h4>Throughput</h4>
+									<ul>
+										<li>
+											<strong>Concurrent Users:</strong>
+											Multiple simultaneous users
+										</li>
+										<li>
+											<strong>Job Processing:</strong>
+											Parallel processing of requests
+										</li>
+										<li>
+											<strong>API Limits:</strong> Rate
+											limiting to prevent abuse
+										</li>
+										<li>
+											<strong>Resource Usage:</strong>
+											Efficient memory and CPU utilization
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section id="security-considerations" class="section">
+					<div class="section-header">
+						<h2 class="section-title">Security Considerations</h2>
+						<div class="section-badge">API Security</div>
+					</div>
+
+					<div class="section-content">
+						<div class="security-features">
+							<h3>Security Features</h3>
+							<div class="security-grid">
+								<div class="security-item">
+									<span class="security-icon">🔐</span>
+									<h4>Lichess OAuth</h4>
+									<p>
+										Secure OAuth 2.0 integration for user
+										authentication
+									</p>
+								</div>
+								<div class="security-item">
+									<span class="security-icon">🛡️</span>
+									<h4>Input Validation</h4>
+									<p>
+										Comprehensive input validation and
+										sanitization
+									</p>
+								</div>
+								<div class="security-item">
+									<span class="security-icon">🚫</span>
+									<h4>Rate Limiting</h4>
+									<p>Protection against API abuse</p>
+								</div>
+								<div class="security-item">
+									<span class="security-icon">🌐</span>
+									<h4>CORS Configuration</h4>
+									<p>Proper cross-origin resource sharing</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section id="future-enhancements" class="section">
+					<div class="section-header">
+						<h2 class="section-title">Future Enhancements</h2>
+						<div class="section-badge">Planned Features</div>
+					</div>
+
+					<div class="section-content">
+						<div class="enhancement-categories">
+							<div class="enhancement-category">
+								<h3>Advanced Analysis</h3>
+								<ul>
+									<li>Opening Classification</li>
+									<li>Trend Analysis</li>
+									<li>Opponent Database</li>
+									<li>Preparation Tools</li>
+								</ul>
+							</div>
+							<div class="enhancement-category">
+								<h3>User Experience</h3>
+								<ul>
+									<li>User Accounts</li>
+									<li>Collaboration Features</li>
+									<li>Mobile App</li>
+									<li>Offline Mode</li>
+								</ul>
+							</div>
+							<div class="enhancement-category">
+								<h3>Technical Improvements</h3>
+								<ul>
+									<li>Real-time Updates</li>
+									<li>Advanced ML Models</li>
+									<li>Performance Optimization</li>
+									<li>API Expansion</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section class="section conclusion">
+					<div class="section-header">
+						<h2 class="section-title">Conclusion</h2>
+						<div class="section-badge">Summary</div>
+					</div>
+
+					<div class="section-content">
+						<div class="conclusion-content">
+							<p class="lead-text">
+								The Chess Opening Analysis Application
+								represents a significant advancement in chess
+								analysis technology, combining traditional chess
+								engine evaluation with modern machine learning
+								techniques. The application's unique approach of
+								intersecting player repertoires and providing
+								expected vs. actual performance metrics offers
+								valuable insights for chess improvement and
+								preparation.
+							</p>
+
+							<p>
+								The technical architecture demonstrates modern
+								best practices in web development, with a clear
+								separation of concerns, scalable design, and
+								robust error handling. The use of React for the
+								frontend, FastAPI for the backend, and Redis for
+								job queuing creates a responsive and reliable
+								user experience.
+							</p>
+
+							<p>
+								The machine learning component adds a
+								sophisticated layer of analysis that goes beyond
+								tactical evaluation, considering positional
+								factors, player characteristics, and game
+								context to provide more nuanced performance
+								predictions.
+							</p>
+
+							<p>
+								As the application continues to evolve, it has
+								the potential to become an essential tool for
+								serious chess players, coaches, and analysts,
+								providing insights that were previously
+								impossible to obtain through traditional
+								analysis methods.
+							</p>
+						</div>
+					</div>
+				</section>
+			</main>
+
+			<footer class="footer">
+				<div class="footer-content">
+					<p>
+						This specification document provides a comprehensive
+						overview of the Chess Opening Analysis Application. For
+						technical implementation details, please refer to the
+						source code and documentation in the project repository.
+					</p>
+					<div class="footer-badge">
+						Chess Opening Analysis Application v1.0
+					</div>
+				</div>
+			</footer>
+		</div>
+
+		<script>
+			// Smooth scrolling for navigation links
+			document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+				anchor.addEventListener("click", function (e) {
+					e.preventDefault();
+					const target = document.querySelector(
+						this.getAttribute("href")
+					);
+					if (target) {
+						target.scrollIntoView({
+							behavior: "smooth",
+							block: "start",
+						});
+					}
+				});
+			});
+
+			// Add active state to navigation based on scroll position
+			window.addEventListener("scroll", () => {
+				const sections = document.querySelectorAll(".section");
+				const navLinks = document.querySelectorAll(".toc-list a");
+
+				let current = "";
+				sections.forEach((section) => {
+					const sectionTop = section.offsetTop;
+					const sectionHeight = section.clientHeight;
+					if (scrollY >= sectionTop - 200) {
+						current = section.getAttribute("id");
+					}
+				});
+
+				navLinks.forEach((link) => {
+					link.classList.remove("active");
+					if (link.getAttribute("href") === `#${current}`) {
+						link.classList.add("active");
+					}
+				});
+			});
+		</script>
+	</body>
+</html>

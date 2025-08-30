@@ -43,7 +43,7 @@ const NodeInfo = ({ node }) => {
 					<StatBar results={node.p2_res} />
 				</div>
 
-				<span className="font-semibold col-span-2 mt-0 text-sm">
+				<span className="font-semibold col-span-2 mt-0">
 					Black - Expected Results
 				</span>
 				<div className="col-span-2">
